@@ -1,0 +1,12 @@
+path: my_dataset/sea_ships_6cls
+train: images/train
+val: images/val
+test: images/test
+
+names:
+  0: bulk cargo carrier
+  1: container ship
+  2: fishing boat
+  3: general cargo ship
+  4: ore carrier
+  5: passenger ship
