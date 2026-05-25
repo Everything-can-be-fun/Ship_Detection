@@ -2,12 +2,14 @@
 # 使用训练好的 YOLO26 SeaShips 六分类模型做目标检测预测。
 # 建议放在 YOLO26 项目根目录执行：python predict.py
 
-from pathlib import Path
+from __future__ import annotations
+
 import re
+from pathlib import Path
 
 import torch
-from ultralytics import YOLO
 
+from ultralytics import YOLO
 
 ROOT = Path(__file__).resolve().parent
 
@@ -26,12 +28,12 @@ PREDICT_CLASSES = None
 
 
 def select_device():
-    """有 CUDA 就用第 0 张 GPU，否则用 CPU。"""
+    """有 CUDA 就用第 0 张 GPU，否则用 CPU。."""
     return 0 if torch.cuda.is_available() else "cpu"
 
 
 def next_run_name(project_dir: Path, prefix: str) -> str:
-    """生成 predict1、predict2、predict3 这种不覆盖旧结果的目录名。"""
+    """生成 predict1、predict2、predict3 这种不覆盖旧结果的目录名。."""
     project_dir.mkdir(parents=True, exist_ok=True)
     pattern = re.compile(rf"^{re.escape(prefix)}(\d+)$")
     nums = []
@@ -47,7 +49,7 @@ def next_run_name(project_dir: Path, prefix: str) -> str:
 
 
 def find_latest_trained_weight(project_dir: Path) -> Path | None:
-    """从 train、train1、train2... 中寻找最近一次训练得到的 best.pt。"""
+    """从 train、train1、train2... 中寻找最近一次训练得到的 best.pt。."""
     if not project_dir.exists():
         return None
 
