@@ -2,14 +2,14 @@
 # 使用 YOLO26n 训练 SeaShips 六分类 detect 目标检测模型。
 # 建议放在 YOLO26 项目根目录执行：python train.py
 
-from pathlib import Path
 import re
 from collections import Counter
+from pathlib import Path
 
 import torch
 import yaml
-from ultralytics import YOLO
 
+from ultralytics import YOLO
 
 ROOT = Path(__file__).resolve().parent
 
@@ -44,12 +44,12 @@ EXPECTED_NAMES = {
 
 
 def select_device():
-    """有 CUDA 就用第 0 张 GPU，否则用 CPU。"""
+    """有 CUDA 就用第 0 张 GPU，否则用 CPU。."""
     return 0 if torch.cuda.is_available() else "cpu"
 
 
 def next_run_name(project_dir: Path, prefix: str) -> str:
-    """生成 train1、train2、train3 这种不覆盖旧结果的目录名。"""
+    """生成 train1、train2、train3 这种不覆盖旧结果的目录名。."""
     project_dir.mkdir(parents=True, exist_ok=True)
     pattern = re.compile(rf"^{re.escape(prefix)}(\d+)$")
     nums = []
@@ -81,7 +81,7 @@ def normalize_names(names) -> dict[int, str]:
 
 
 def resolve_dataset_dir(data: dict) -> Path:
-    """优先使用期望的 sea_ships_6cls 目录；不存在时再按 YAML path 解析。"""
+    """优先使用期望的 sea_ships_6cls 目录；不存在时再按 YAML path 解析。."""
     if EXPECTED_DATASET_DIR.exists():
         return EXPECTED_DATASET_DIR
 
@@ -103,7 +103,7 @@ def resolve_dataset_dir(data: dict) -> Path:
 
 
 def make_runtime_yaml(dataset_dir: Path, names: dict[int, str]) -> Path:
-    """生成运行时 YAML，避免服务器/本地绝对路径不一致。"""
+    """生成运行时 YAML，避免服务器/本地绝对路径不一致。."""
     PROJECT_DIR.mkdir(parents=True, exist_ok=True)
     runtime_yaml = PROJECT_DIR / "_runtime_sea_ships_6cls.yaml"
 
@@ -123,7 +123,7 @@ def make_runtime_yaml(dataset_dir: Path, names: dict[int, str]) -> Path:
 
 
 def validate_dataset(dataset_dir: Path, names: dict[int, str]) -> None:
-    """训练前检查：目录、图片/标签数量、类别编号是否匹配。"""
+    """训练前检查：目录、图片/标签数量、类别编号是否匹配。."""
     if not dataset_dir.exists():
         raise FileNotFoundError(f"找不到数据集目录：{dataset_dir}")
 
@@ -200,9 +200,7 @@ def validate_dataset(dataset_dir: Path, names: dict[int, str]) -> None:
         )
 
     if len(names) == 1:
-        raise RuntimeError(
-            "当前 data.yaml 只有 1 个类别。SeaShips 六分类训练不应该使用 names: {0: ship}。"
-        )
+        raise RuntimeError("当前 data.yaml 只有 1 个类别。SeaShips 六分类训练不应该使用 names: {0: ship}。")
 
 
 def main():
@@ -246,10 +244,10 @@ def main():
         name=run_name,
         exist_ok=False,
         save=True,
-        save_period=10,          # 防止最后一轮崩掉导致没有中间权重
+        save_period=10,  # 防止最后一轮崩掉导致没有中间权重
         plots=True,
         end2end=True,
-        single_cls=False,        # 明确禁止把多类别合并成单类别
+        single_cls=False,  # 明确禁止把多类别合并成单类别
         pretrained=True,
         optimizer="auto",
         lr0=0.01,
