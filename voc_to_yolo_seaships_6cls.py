@@ -5,11 +5,11 @@
 # 如果你的 VOC 原始目录就是 my_dataset/Annotations、my_dataset/ImageSets、my_dataset/JPEGImages，则：
 #   python voc_to_yolo_seaships_6cls.py --voc-root my_dataset --out my_dataset/sea_ships_6cls
 
-from pathlib import Path
 import argparse
 import shutil
 import xml.etree.ElementTree as ET
 from collections import Counter
+from pathlib import Path
 
 try:
     import cv2
@@ -32,7 +32,9 @@ CLASS_TO_ID = {name: i for i, name in enumerate(CLASSES)}
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Convert SeaShips VOC XML to YOLO six-class format.")
-    parser.add_argument("--voc-root", type=Path, required=True, help="VOC root containing Annotations, ImageSets, JPEGImages")
+    parser.add_argument(
+        "--voc-root", type=Path, required=True, help="VOC root containing Annotations, ImageSets, JPEGImages"
+    )
     parser.add_argument("--out", type=Path, required=True, help="Output YOLO dataset directory")
     parser.add_argument("--overwrite", action="store_true", help="Overwrite output directory if it exists")
     return parser.parse_args()
